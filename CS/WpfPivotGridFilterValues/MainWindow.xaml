@@ -1,34 +1,65 @@
-<Window x:Class="WpfPivotGridFilterValues.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:dxpg="http://schemas.devexpress.com/winfx/2008/xaml/pivotgrid"
-        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-        dx:ThemeManager.Theme="Office2013LightGray" 
-        Title="Pivot Grid Filtering" 
-        Height="260" Width="620" 
-        xmlns:my="clr-namespace:WpfPivotGridFilterValues.nwindDataSetTableAdapters" 
-        xmlns:my1="clr-namespace:WpfPivotGridFilterValues">
-    <Window.Resources>
-        <dx:TypedSimpleSource x:Key="TypedSimpleSource" AdapterType="my:SalesPersonTableAdapter" 
-                              ContextType="my1:nwindDataSet" Path="SalesPerson">
-            <dx:DesignDataManager.DesignData>
-                <dx:DesignDataSettings RowCount="5" />
-            </dx:DesignDataManager.DesignData>
-        </dx:TypedSimpleSource>
-    </Window.Resources>
+<dx:ThemedWindow
+    x:Class="WpfPivotGridFilterValues.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxpg="http://schemas.devexpress.com/winfx/2008/xaml/pivotgrid"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    Width="800"
+    Height="400"
+    Title="Pivot Grid Filtering">
+
+    <dx:ThemedWindow.Resources>
+        <dx:ExcelItemsSource
+            x:Key="ExcelItemsSource"
+            FileUri="pack://application:,,,/WpfPivotGridFilterValues;component/Data/SalesPerson.xlsx"
+            StreamDocumentFormat="Xlsx"
+            WorksheetName="Data">
+            <dx:ExcelItemsSource.Columns>
+                <dx:ExcelColumn ColumnType="{x:Type sys:String}" Name="CategoryName" />
+                <dx:ExcelColumn ColumnType="{x:Type sys:String}" Name="Country" />
+                <dx:ExcelColumn ColumnType="{x:Type sys:String}" Name="ProductName" />
+                <dx:ExcelColumn ColumnType="{x:Type sys:String}" Name="Sales Person" />
+                <dx:ExcelColumn ColumnType="{x:Type sys:DateTime}" Name="OrderDate" />
+                <dx:ExcelColumn ColumnType="{x:Type sys:Double}" Name="OrderID" />
+                <dx:ExcelColumn ColumnType="{x:Type sys:Double}" Name="Quantity" />
+                <dx:ExcelColumn ColumnType="{x:Type sys:Double}" Name="Discount" />
+                <dx:ExcelColumn ColumnType="{x:Type sys:Double}" Name="Extended Price" />
+                <dx:ExcelColumn ColumnType="{x:Type sys:Double}" Name="UnitPrice" />
+            </dx:ExcelItemsSource.Columns>
+        </dx:ExcelItemsSource>
+    </dx:ThemedWindow.Resources>
+
     <Grid>
-        <dxpg:PivotGridControl Name="pivotGridControl1" 
-                               DataSource="{Binding Path=Data, Source={StaticResource TypedSimpleSource}}">
+        <dxpg:PivotGridControl DataSource="{Binding Path=Data, Source={StaticResource ExcelItemsSource}}" 
+                               Name="pivotGridControl1">
             <dxpg:PivotGridControl.Fields>
-                <dxpg:PivotGridField Area="RowArea" Caption="Category" FieldName="CategoryName" 
-                                     Name="fieldCategory" AreaIndex="0" />
-                <dxpg:PivotGridField Area="ColumnArea" FieldName="Country" 
-                                     Name="fieldCountry" AreaIndex="1" />
-                <dxpg:PivotGridField Area="DataArea" FieldName="Extended Price" 
-                                     Name="fieldExtendedPrice" AreaIndex="0" />
-                <dxpg:PivotGridField Area="ColumnArea" Caption="Sales Person" 
-                                     Name="pivotGridField2" FieldName="Sales Person" AreaIndex="2" />
+                <dxpg:PivotGridField
+                    Area="DataArea"
+                    Caption="Product Sales"
+                    FieldName="Extended Price"
+                    CellFormat="c0"
+                    Name="fieldSales" />
+                <dxpg:PivotGridField
+                    Area="FilterArea"
+                    Caption="Country"
+                    FieldName="Country"
+                    Name="fieldCountry" />
+                <dxpg:PivotGridField
+                    AllowFilter="False"
+                    Area="ColumnArea"
+                    Caption="Year"
+                    FieldName="OrderDate"
+                    GroupInterval="DateYear"
+                    Name="fieldYear" />
+                <dxpg:PivotGridField
+                    Area="RowArea"
+                    AreaIndex="0"
+                    Caption="Category Name"
+                    FieldName="CategoryName"
+                    Name="fieldCategoryName"/>
             </dxpg:PivotGridControl.Fields>
         </dxpg:PivotGridControl>
     </Grid>
-</Window>
+
+</dx:ThemedWindow>
