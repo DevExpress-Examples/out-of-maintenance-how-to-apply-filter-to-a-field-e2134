@@ -8,6 +8,6 @@
 
 This example shows how to apply a filter to a field. 
 
-The first filter select records which contain _UK_ in the '**fieldCountry**' field, the second filter selects four categories in the **Category Name** field: _Beverages_, _Condiments_, _Seafood_, and _Produce_.
+The first filter select records which contain _UK_ in the **fieldCountry** field, the second filter selects four categories in the **fieldCategoryName** field: _Beverages_, _Condiments_, _Seafood_, and _Produce_.
 
 ![screenshot](images/screenshot.png)
